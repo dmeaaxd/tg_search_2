@@ -46,17 +46,6 @@ class TelegramChats(Base):
     owner = relationship("TgSearchAccounts", back_populates="telegram_chats")
 
 
-class InfoForBot(Base):
-    __tablename__ = 'InfoForBot'
-
-    id = Column(Integer, primary_key=True)
-    email = Column(String, default='')
-    status = Column(Boolean, default=False)
-    last_iter_date = Column(String, default='')
-    keywords = Column(String, default='')
-    chats = Column(String, default='')
-
-
 
 
 # Database setup
@@ -208,75 +197,4 @@ def check_same_tg_number(session_name: str):
         return True
     else:
         return False
-
-
-
-def add_info_for_bot(
-        email,
-        status,
-        last_iter_date,
-        keywords,
-        chats
-):
-    info = InfoForBot(
-        email=email,
-        status=status,
-        last_iter_date=last_iter_date,
-        keywords=keywords,
-        chats=chats
-    )
-    session.add(info)
-    session.commit()
-    return info
-
-def delete_current_account_from_info(email):
-    account_to_delite = session.query(InfoForBot).filter_by(email=email).first()
-
-    if account_to_delite:
-        session.delete(account_to_delite)
-        session.commit()
-
-def update_current_account_from_info(
-        email,
-        new_status,
-        new_last_iter_date,
-        new_keywords,
-        new_chats
-):
-    account_to_update = session.query(InfoForBot).filter_by(email=email).first()
-
-    if account_to_update:
-        account_to_update.status = new_status
-        account_to_update.last_iter_date = new_last_iter_date
-        account_to_update.keywords = new_keywords
-        account_to_update.chats = new_chats
-        session.commit()
-
-
-
-def clear_info_for_bot_table():
-    session.query(InfoForBot).delete()
-    session.commit()
-
-
-def add_or_update_info_for_bot(email, status, last_iter_date, keywords, chats):
-    # Пытаемся найти аккаунт по email
-    account_to_update = session.query(InfoForBot).filter_by(email=email).first()
-
-    if account_to_update:
-        account_to_update.status = status
-        account_to_update.last_iter_date = last_iter_date
-        account_to_update.keywords = keywords
-        account_to_update.chats = chats
-        session.commit()
-    else:
-        info = InfoForBot(
-            email=email,
-            status=status,
-            last_iter_date=last_iter_date,
-            keywords=keywords,
-            chats=chats
-        )
-        session.add(info)
-        session.commit()
 

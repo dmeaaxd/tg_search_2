@@ -30,11 +30,9 @@ def main():
             if account.session_name not in messages_history.keys():
                 messages_history[account.session_name] = {}
 
-            s = time.time()
             telegram_client = create_telegram_client(
                 account.session_name, account.api_id, account.api_hash
             )
-            # print('Telegram connect time:', time.time() - s)
 
             keywords = account.search_words.split(",")
             search_groups = database.get_all_enabled_chats_by_user_id(account.id)
@@ -51,9 +49,7 @@ def main():
                     ]
                     return founded_keywords
 
-                s = time.time()
                 chats = telegram_client.get_dialogs()
-                # print('Get dialogs time:', time.time() - s)
                 for chat in chats:
                     try:
                         if chat.title == search_title:
@@ -97,40 +93,8 @@ def main():
 
                     except:
                         print("messages get error")
-            s = time.time()
-
-            last_iter_date_datetime = datetime.now()
-            last_iter_date_str = last_iter_date_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
-            # database.delete_current_account_from_info(account.email)
-            # database.add_info_for_bot(email=str(account.email),
-            #                           status=True,
-            #                           last_iter_date=last_iter_date_str,
-            #                           keywords=str(keywords),
-            #                           chats=str(search_groups)
-            #                           )
-
-            # database.update_current_account_from_info(email='',
-            #                                           new_status=True,
-            #                                           new_last_iter_date='',
-            #                                           new_keywords='',
-            #                                           new_chats=''
-            #                                           )
-            # database.add_info_for_bot(email=str(account.email),
-            #                           status=True,
-            #                           last_iter_date=last_iter_date_str,
-            #                           keywords=str(keywords),
-            #                           chats=str(chat_names)
-            #                           )
-            database.add_or_update_info_for_bot(email=str(account.email),
-                                                status=True,
-                                                last_iter_date=last_iter_date_str,
-                                                keywords=str(keywords),
-                                                chats=str(chat_names)
-                                                )
 
             telegram_client.disconnect()
-        #     print('Disconnect time', time.time() - s)
         print('Execution time:', time.time() - start)
 
 
