@@ -1,0 +1,35 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>SMS</title>#}
+{#</head>#}
+{#<body>#}
+{#    <form method="post">#}
+{#        <label for="api_id">SMS code:</label>#}
+{#        <label>#}
+{#            <input type="text" name="code" required>#}
+{#        </label><br>#}
+{##}
+{#        <button type="submit">Get Chat List</button>#}
+{#    </form>#}
+{#</body>#}
+{#</html>#}
+{##}
+{##}
+{% extends 'base.html' %}
+
+{% block title %}
+    Введите код из СМС
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <label for="api_id">SMS code:</label>
+        <label>
+            <input type="text" name="code" required>
+        </label><br>
+
+        <button type="submit">Get Chat List</button>
+    </form>
+{% endblock %}
